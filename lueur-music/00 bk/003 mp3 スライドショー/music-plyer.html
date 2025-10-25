@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Audio + Visual Drift | Chiwansam</title>
+  <meta name="description" content="音楽に合わせて静かに写真が巡る、没入型スライドショー" />
+  <style>
+    :root{
+      --bg:#0f0f12; --ink:#eaeaf0; --muted:#a7a7b3; --accent:#b8a7ff; --line:#2a2a31;
+      --maxw:1280px; --pad:16px;
+    }
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic","Meiryo",sans-serif}
+
+    header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(15,15,18,.9),rgba(15,15,18,.65));backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+    .bar{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px var(--pad)}
+    .brand a{color:var(--ink);text-decoration:none;font-weight:700}
+
+    .stage{position:relative;height:calc(100vh - 140px);max-height:1000px;overflow:hidden}
+    .slide{position:absolute;inset:0;background:#000;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 1.8s ease}
+    .slide img{width:100%;height:100%;object-fit:cover;filter:contrast(1.02) saturate(1.02)}
+    .slide.active{opacity:1}
+    /* Ken Burns */
+    .slide.active img{animation:ken 18s ease-in-out forwards}
+    @keyframes ken{0%{transform:scale(1.03)} 100%{transform:scale(1.08)}}
+
+    .overlay{position:absolute;left:0;right:0;bottom:0;padding:18px var(--pad);background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.5) 65%, rgba(0,0,0,.65) 100%);}
+    .meta{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .title{font-weight:700}
+    .muted{color:var(--muted)}
+
+    .controls{display:flex;align-items:center;gap:10px;margin-left:auto}
+    .btn{appearance:none;border:1px solid var(--line);background:#17171b;color:var(--ink);padding:8px 10px;border-radius:10px;cursor:pointer}
+    .btn:hover{border-color:#3a3a44}
+
+    .progress{position:relative;flex:1;min-width:220px;height:6px;background:#1e1e25;border-radius:999px;overflow:hidden}
+    .bar{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent)}
+
+    .dock{max-width:var(--maxw);margin:0 auto;padding:10px var(--pad);display:flex;align-items:center;gap:12px;border-top:1px solid var(--line)}
+    .vol{display:flex;align-items:center;gap:8px}
+    input[type=range]{accent-color:var(--accent)}
+
+    .center{
+      display:flex;align-items:center;justify-content:center;height:60vh;flex-direction:column;gap:14px
+    }
+    .start{font-size:16px}
+
+    /* Hidden but accessible */
+    .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <div class="brand"><a href="/">Chiwansam</a></div>
+      <nav aria-label="breadcrumb"><span class="muted">Music</span></nav>
+    </div>
+  </header>
+
+  <div id="gate" class="center" role="dialog" aria-labelledby="gate-title" aria-modal="true">
+    <div id="gate-title" class="muted">音の再生には操作が必要です</div>
+    <button id="start" class="btn start">▶ Start</button>
+    <div class="muted" style="font-size:13px">開始すると音楽とスライドが流れます</div>
+  </div>
+
+  <main id="player" hidden>
+    <section class="stage" aria-live="polite" aria-label="スライドショー">
+      <div class="slide" id="s0"><img alt="" /></div>
+      <div class="slide" id="s1"><img alt="" /></div>
+      <div class="overlay">
+        <div class="meta">
+          <div class="title" id="trackTitle">—</div>
+          <div class="muted" id="now">Now Playing</div>
+          <div class="controls" role="group" aria-label="再生コントロール">
+            <button id="prev" class="btn" title="前の曲" aria-label="前の曲">⟨⟨</button>
+            <button id="play" class="btn" title="再生/一時停止" aria-label="再生/一時停止">⏸</button>
+            <button id="next" class="btn" title="次の曲" aria-label="次の曲">⟩⟩</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="dock">
+      <div class="progress" aria-label="進行状況" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" id="prog"></div></div>
+      <div class="time muted" id="time">0:00 / 0:00</div>
+      <div class="vol">
+        <button id="mute" class="btn" aria-label="ミュート切替">🔈</button>
+        <input id="volume" type="range" min="0" max="1" step="0.01" value="0.85" aria-label="音量">
+      </div>
+    </div>
+  </main>
+
+  <audio id="audio" preload="auto" class="sr"></audio>
+
+  <script>
+  // ===== データ定義 =====
+  // /assets/av.json を推奨。単曲 or プレイリスト対応。
+  const DATA_URL = '/assets/av.json';
+  // 例：
+  // {
+  //   "playlist": [
+  //     {
+  //       "title": "Lost Fragment",
+  //       "music": "/music/lostfragment.mp3",
+  //       "images": ["/images/music/fragment1.jpg","/images/music/fragment2.jpg"],
+  //       "interval": 6000
+  //     },
+  //     {
+  //       "title": "Quiet Bloom",
+  //       "music": "/music/quietbloom.mp3",
+  //       "images": ["/images/music/bloom1.jpg","/images/music/bloom2.jpg","/images/music/bloom3.jpg"],
+  //       "interval": 5000
+  //     }
+  //   ]
+  // }
+
+  const FALLBACK = { playlist:[ { title:'Sample Track', music:'https://cdn.pixabay.com/download/audio/2021/09/16/audio_1.mp3?filename=sample-3s.mp3', images:[ 'https://picsum.photos/seed/av1/1600/900', 'https://picsum.photos/seed/av2/1600/900', 'https://picsum.photos/seed/av3/1600/900' ], interval: 4000 } ] };
+
+  const el = {
+    gate: document.getElementById('gate'), start: document.getElementById('start'),
+    player: document.getElementById('player'),
+    stage: document.querySelector('.stage'),
+    slides: [document.getElementById('s0'), document.getElementById('s1')],
+    img0: document.querySelector('#s0 img'), img1: document.querySelector('#s1 img'),
+    title: document.getElementById('trackTitle'),
+    btnPrev: document.getElementById('prev'), btnPlay: document.getElementById('play'), btnNext: document.getElementById('next'),
+    prog: document.getElementById('prog'), time: document.getElementById('time'), volume: document.getElementById('volume'), mute: document.getElementById('mute'),
+    audio: document.getElementById('audio')
+  };
+
+  let data = FALLBACK;
+  let idxTrack = 0;
+  let idxImg = 0;
+  let timer = null;
+  let showing = 0; // which slide is active (0/1)
+
+  // 画像先読み
+  function preload(urls){ urls.forEach(u=>{ const i = new Image(); i.src = u; }); }
+
+  function hms(sec){
+    if(!isFinite(sec)) return '0:00';
+    const m = Math.floor(sec/60), s = Math.floor(sec%60); return `${m}:${String(s).padStart(2,'0')}`;
+  }
+
+  function setProgress(){
+    const a = el.audio; const p = (a.currentTime / (a.duration||1))*100; el.prog.style.width = p+'%';
+    el.time.textContent = `${hms(a.currentTime)} / ${hms(a.duration)}`;
+  }
+
+  function swapSlide(nextUrl){
+    const next = (showing ^ 1); // 0->1, 1->0
+    const nextEl = el.slides[next].querySelector('img');
+    nextEl.src = nextUrl;
+    el.slides[next].classList.add('active');
+    el.slides[showing].classList.remove('active');
+    showing = next;
+  }
+
+  function startSlideshow(track){
+    clearInterval(timer);
+    const images = track.images && track.images.length ? track.images : [];
+    if(images.length === 0){ return; }
+    idxImg = 0; showing = 0;
+    el.img0.src = images[0];
+    el.slides[0].classList.add('active');
+    el.slides[1].classList.remove('active');
+
+    preload(images);
+
+    timer = setInterval(()=>{
+      idxImg = (idxImg + 1) % images.length;
+      swapSlide(images[idxImg]);
+    }, Math.max(2500, track.interval||5000));
+  }
+
+  function loadTrack(i){
+    const list = data.playlist || [data];
+    idxTrack = (i + list.length) % list.length;
+    const t = list[idxTrack];
+    el.title.textContent = t.title || 'Untitled';
+    el.audio.src = t.music;
+    el.audio.play().catch(()=>{});
+    startSlideshow(t);
+  }
+
+  // 進捗とエンドハンドリング
+  el.audio.addEventListener('timeupdate', setProgress);
+  el.audio.addEventListener('ended', ()=>{ loadTrack(idxTrack+1); });
+
+  // コントロール
+  el.btnPrev.addEventListener('click', ()=> loadTrack(idxTrack-1));
+  el.btnNext.addEventListener('click', ()=> loadTrack(idxTrack+1));
+  el.btnPlay.addEventListener('click', ()=>{
+    if(el.audio.paused){ el.audio.play(); el.btnPlay.textContent = '⏸'; }
+    else { el.audio.pause(); el.btnPlay.textContent = '▶'; }
+  });
+  el.volume.addEventListener('input', ()=>{ el.audio.volume = parseFloat(el.volume.value); });
+  el.mute.addEventListener('click', ()=>{ el.audio.muted = !el.audio.muted; el.mute.textContent = el.audio.muted ? '🔇' : '🔈'; });
+
+  // クリックでシーク
+  document.querySelector('.progress').addEventListener('click', (e)=>{
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width; el.audio.currentTime = ratio * (el.audio.duration||0);
+  });
+
+  // 起動ゲート（自動再生対策）
+  el.start.addEventListener('click', async ()=>{
+    el.gate.hidden = true; el.player.hidden = false;
+    // データ読み込み
+    try{
+      const r = await fetch(DATA_URL, {cache:'no-cache'});
+      data = r.ok ? await r.json() : FALLBACK;
+    }catch(err){ data = FALLBACK; }
+    loadTrack(0);
+  });
+
+  // キーボード
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === ' '){ e.preventDefault(); el.btnPlay.click(); }
+    else if(e.key === 'ArrowRight'){ el.btnNext.click(); }
+    else if(e.key === 'ArrowLeft'){ el.btnPrev.click(); }
+  });
+  </script>
+</body>
+</html>

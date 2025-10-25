@@ -1,0 +1,47 @@
+{
+  "_comment" : "Lueur de Chiwan",
+  "playlist": [
+    {
+      "title": "SPACE MARINE CAPTAIN / Capitaine de Minuit",
+      "music": "/music/202510 スペースマリーンキャプテン/「Capitaine de Minuit」.mp3",
+      "images": [
+	    {	"src":"/image/202510 スペースマリーンキャプテン/20251021 DSC_5176 黒サフ.JPG",
+	    	"text":"白サフ" },
+	    {	"src":"/image/202510 Tyranid Prime/20251003 DSC_5132 ゼニタル白.JPG",
+	    	"text":"ラッカーの白を重ねました\n・ガイアのアルティメットホワイト（たぶん）\n" },
+	    {	"src":"/image/202510 Tyranid Prime/20251003 DSC_5134 ゼニタル白.JPG",
+	    	"text":"アシェットンのは合わせ目は消さない" },
+	    {	"src":"/image/202510 Tyranid Prime/20251008 DSC_5136 ベースまで.JPG",
+	    	"text":"ベースまでぬった\nCITADELニッパーと同時に勝手に増えていく\nCITADELスターターブラシでぬった"},
+	    {	"src":"/image/202510 Tyranid Prime/20251008 DSC_5138 ベース.JPG",
+	    	"text":"光沢ラッカーの上にCITADELカラーは\nかなりきつい" },
+	    "/image/202510 Tyranid Prime/20251009 DSC_5151 シェード.JPG",
+	    "/image/202510 Tyranid Prime/20251011 DSC_5156 ハイライト.JPG",
+	    "/image/202510 Tyranid Prime/20251011 DSC_5157 ハイライト.JPG",
+	    "/image/202510 Tyranid Prime/スクリーンショット 2025-10-12 005925.png",
+	    "/image/202510 Tyranid Prime/スクリーンショット 2025-10-12 012532.png"
+      ],
+      "interval": 9000
+    },
+    {
+      "title": "Tyranid Prime HYDE FLEET RHENESYNE",
+      "music": "/music/202510_Tyranid Prime/Tyranid de Minuit（40kの真夜中に）2.mp3",
+      "images": [
+	    "/image/202510 Tyranid Prime/20251002 DSC_5122 ゼニタルグレー.JPG",
+	    "/image/202510 Tyranid Prime/20251003 DSC_5132 ゼニタル白.JPG",
+	    "/image/202510 Tyranid Prime/20251003 DSC_5134 ゼニタル白.JPG",
+	    "/image/202510 Tyranid Prime/20251008 DSC_5136 ベースまで.JPG",
+	    "/image/202510 Tyranid Prime/20251008 DSC_5138 ベース.JPG",
+	    "/image/202510 Tyranid Prime/20251009 DSC_5151 シェード.JPG",
+	    "/image/202510 Tyranid Prime/20251011 DSC_5156 ハイライト.JPG",
+	    "/image/202510 Tyranid Prime/20251011 DSC_5157 ハイライト.JPG",
+	    "/image/202510 Tyranid Prime/スクリーンショット 2025-10-12 005925.png",
+	    "/image/202510 Tyranid Prime/スクリーンショット 2025-10-12 012532.png"
+      ],
+      "interval": 9000
+    }
+
+  ]
+}
+
+

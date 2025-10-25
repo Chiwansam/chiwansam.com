@@ -1,0 +1,46 @@
+{
+  "_comment" : "Lueur de Chiwan",
+  "playlist": [
+    {
+      "title": "GOREMONGAR Haute Couture",
+      "music": "/music/202507_GOREMONGAR/GOREMONGAR v5 1.mp3",
+      "images": [
+	    "/image/202507 ゴアモンガー/20250706 巣組み .png",
+	    "/image/202507 ゴアモンガー/20250707 ゼニタル白_b.JPG",
+	    "/image/202507 ゴアモンガー/20250711 ガンメタなるんオイルでシルバーしずめる.JPG",
+	    "/image/202507 ゴアモンガー/20250712 ガンメタる.JPG",
+	    "/image/202507 ゴアモンガー/DSC_4667.JPG"
+      ],
+      "interval": 9000
+    },
+    {
+      "title": "GOREMONGAR Français",
+      "music": "/music/202507_GOREMONGAR/GOREMONGAR v5 2.mp3",
+      "images": [
+	    "/image/202507 ゴアモンガー/DSC_4682.JPG",
+	    "/image/202507 ゴアモンガー/DSC_4685.JPG",
+	    "/image/202507 ゴアモンガー/DSC_4688.JPG",
+	    "/image/202507 ゴアモンガー/DSC_4693.JPG",
+	    "/image/202507 ゴアモンガー/DSC_4694.JPG"
+      ],
+      "interval": 9000
+    },
+    {
+      "title": "Je suis Goremonger",
+      "music": "/music/202507_GOREMONGAR/goremongar_v35_1.mp3",
+      "images": [
+	    "/image/202507 ゴアモンガー/DSC_4702.JPG",
+	    "/image/202507 ゴアモンガー/DSC_4710.JPG",
+	    "/image/202507 ゴアモンガー/DSC_4717.JPG",
+	    "/image/202507 ゴアモンガー/DSC_4722.JPG",
+	    "/image/202507 ゴアモンガー/スクリーンショット 2025-07-11 181409.png",
+	    "/image/202507 ゴアモンガー/スクリーンショット 2025-07-12 105204.png",
+	    "/image/202507 ゴアモンガー/スクリーンショット 2025-07-12 231338.png"
+      ],
+      "interval": 9000
+    }
+  ]
+}
+
+
+

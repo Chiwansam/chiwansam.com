@@ -1,0 +1,24 @@
+
+〇 GitHubと連携しよう
+
+	https://github.com/
+	アカウント	googleで連携
+	ユーザー名	Chiwansam
+
+	リポジトリ	chiwansam.com
+
+	cd "C:\data\20251022 Chiwansam.com"
+	
+
+
+〇　JSONを作ろう
+
+	cd "C:\data\20251022 Chiwansam.com\image\202509 ナイトアーミジャー"
+	Get-ChildItem -File | ForEach-Object { $_.Name } | ConvertTo-Json
+
+
+
+
+
+
+

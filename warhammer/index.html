@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Warhammer | Chiwansam</title>
+  <meta name="description" content="WARHAMMERギャラリー" />
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111; --muted:#666; --line:#e9e9e9; --accent:#9b87f5;
+      --card-radius:18px; --gap:24px; --maxw:1280px;
+    }
+    body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic","Meiryo",sans-serif; color:var(--ink); background:var(--bg); line-height:1.6}
+
+    header{position:sticky; top:0; background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.75)); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); z-index:10}
+    .bar{max-width:var(--maxw); margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:14px 20px}
+    .brand a{text-decoration:none; color:var(--ink); font-weight:700}
+    nav a{color:var(--ink); text-decoration:none; opacity:.8; margin-left:14px}
+    nav a:hover{opacity:1}
+
+    .crumb{max-width:var(--maxw); margin:20px auto 0; padding:0 20px; font-size:13px; color:var(--muted)}
+    .crumb a{color:inherit; text-decoration:none}
+
+    .title{max-width:var(--maxw); margin:6px auto 0; padding:0 20px 8px}
+    .title h1{margin:.2em 0 .1em; font-size:clamp(22px,3vw,30px)}
+    .title p{margin:0; color:var(--muted)}
+
+    .toolbar{max-width:var(--maxw); margin:10px auto 0; padding:0 20px 10px; display:flex; gap:10px; flex-wrap:wrap}
+    .chip{border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:13px; background:#fff; cursor:pointer}
+    .chip[aria-pressed="true"]{border-color:var(--accent)}
+
+    .grid{max-width:var(--maxw); margin:0 auto; padding:10px 20px 70px; display:grid; gap:var(--gap); grid-template-columns:repeat(12,1fr)}
+    .card{grid-column:span 12; position:relative; overflow:hidden; border-radius:var(--card-radius); border:1px solid var(--line); background:#f8f8f8}
+    .card-media{aspect-ratio:16/10; width:100%; object-fit:cover; display:block; background:#ddd}
+    .card-body{padding:14px 16px}
+    .eyebrow{font-size:12px; letter-spacing:.06em; color:var(--muted)}
+    .card-title{font-weight:700; font-size:clamp(18px,2vw,22px); margin:.3em 0 .2em}
+    .card-desc{font-size:14px; color:#333}
+    .meta{display:flex; gap:8px; color:var(--muted); font-size:12px; margin-top:6px}
+    .card a.cover{position:absolute; inset:0; text-indent:-9999px}
+
+    .card.size-lg{grid-column:span 12}
+    .card.size-md{grid-column:span 6}
+    .card.size-sm{grid-column:span 4}
+
+    @media (max-width: 1024px){.card.size-sm{grid-column:span 6}}
+    @media (max-width: 640px){.card.size-md,.card.size-sm{grid-column:span 12}}
+
+    .reveal{opacity:0; transform:translateY(10px); transition:all .6s ease}
+    .reveal.show{opacity:1; transform:none}
+
+    footer{max-width:var(--maxw); margin:10px auto 60px; padding:0 20px; font-size:13px; color:var(--muted)}
+
+    /* フローティング Music Player ボタン */
+    .music-fab{
+      position:fixed; right:18px; bottom:18px; z-index:20;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:999px; background:#111; color:#fff;
+      text-decoration:none; box-shadow:0 6px 20px rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.1); opacity:.95;
+    }
+    .music-fab:hover{opacity:1}
+    .music-fab svg{width:18px; height:18px; display:block}
+    .music-hint{position:fixed; right:26px; bottom:62px; font-size:12px; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <div class="brand"><a href="/">Chiwansam</a></div>
+      <nav>
+        <a href="/">Top</a>
+        <a href="/music/">Music</a>
+        <a aria-current="page" href="/warhammer/">Warhammer</a>
+        <a href="/gunpla/">Gunpla</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="crumb" aria-label="パンくず">
+    <a href="/">Home</a> / WARHAMMER
+  </div>
+
+  <section class="title">
+    <h1>WARHAMMER</h1>
+    <p>静かな工程と仕上がりの記録。各作品へ。</p>
+  </section>
+
+  <!-- シンプルなフィルタ（タグ） -->
+  <div class="toolbar" id="filters" role="toolbar" aria-label="フィルタ"></div>
+
+  <main class="grid" id="grid" aria-label="作品一覧"></main>
+
+  <footer>© <span id="year"></span> Chiwansam</footer>
+
+  <!-- フローティング Music Player へのリンク（パスは必要に応じて変更） -->
+  <a class="music-fab" href="/lueur-music/" aria-label="Music Player へ">
+    <!-- play-circle アイコン -->
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"></circle>
+      <path d="M10 8.5v7l6-3.5-6-3.5z" fill="currentColor"></path>
+    </svg>
+    <span>Music Player</span>
+  </a>
+  <div class="music-hint" aria-hidden="true">ショートカット：M</div>
+
+  <script>
+  const DATA_URL = '/assets/warhammer.json';
+
+  // JSON 仕様（Gunplaと同じ形式）
+  // [
+  //   {
+  //     "title": "Knight Armiger",
+  //     "description": "コックピット自作、ハッチ磁石化など。",
+  //     "image": "/images/warhammer/armiger.jpg",
+  //     "link": "/warhammer/armiger.html",
+  //     "size": "md",                  // lg | md | sm
+  //     "tags": ["40K","Imperium","Knight"],
+  //     "meta": {"year": 2025, "system": "40K", "faction": "Imperium"}
+  //   }
+  // ]
+
+  const FALLBACK = [
+    {title:'SPACEMARINE CAPTAIN', description:'アシェット#1。', size:'lg', image:'/image/202510 スペースマリーンキャプテン/20251021 DSC_5176 黒サフ.JPG', link:'/lueur-music/?list=SpaceMarineCaptain', tags:['40K','Tyranids'], meta:{year:2025, system:'40K'}},
+    {title:'Tyranid Prime', description:'目の配色検討中。ゼニタルとグレーズ。', size:'lg', image:'/image/202510 Tyranid Prime/スクリーンショット 2025-10-12 012532.png', link:'/lueur-music/?list=TyranidPrime', tags:['40K','Tyranids'], meta:{year:2025, system:'40K'}},
+    {title:'Goremonger', description:'はじめてのウォーハンマー', size:'lg', image:'/image/202507 ゴアモンガー/DSC_4682.JPG', link:'/lueur-music/?list=goremonger', tags:['40K','Goremonger'], meta:{year:2025, system:'40K'}},
+    {title:'Knight Armiger', description:'ハッチ磁石化／コックピット自作／リベット追加。', size:'md', image:'/image/202507 ゴアモンガー/スクリーンショット 2025-10-23 202914.png', link:'#', tags:['40K','Imperium','Knight'], meta:{year:2025, system:'40K'}},
+
+    {title:'Stormcast Eternal – Tenya', description:'銀下地＋クリアイエローで金表現。薄塗り挑戦。', size:'sm', image:'https://picsum.photos/seed/wh1/1200/800', link:'#', tags:['AoS','Stormcast','Gold'], meta:{year:2025, system:'AoS'}},
+    {title:'Liberator 小隊', description:'静かな光沢と控えめなハイライト。', image:'https://picsum.photos/seed/wh4/1200/800', link:'#', size:'md', tags:['AoS','Stormcast'], meta:{year:2025, system:'AoS'}}
+  ];
+
+  const grid = document.getElementById('grid');
+  const filters = document.getElementById('filters');
+  let DATA = [];
+  let active = new Set();
+
+  function makeCard(item){
+    const sizeCls = item.size === 'lg' ? 'size-lg' : item.size === 'sm' ? 'size-sm' : 'size-md';
+    const el = document.createElement('article');
+    el.className = `card ${sizeCls} reveal`;
+    el.innerHTML = `
+      <img class="card-media" alt="${escapeHtml(item.title)}" src="${item.image}">
+      <div class="card-body">
+        ${ item.eyebrow ? `<div class="eyebrow">${escapeHtml(item.eyebrow)}</div>` : '' }
+        <div class="card-title">${escapeHtml(item.title)}</div>
+        <div class="card-desc">${escapeHtml(item.description || '')}</div>
+        ${ item.meta ? `<div class="meta">${metaToText(item.meta)}</div>` : '' }
+      </div>
+      <a class="cover" href="${item.link}" aria-label="${escapeHtml(item.title)} へ移動">${escapeHtml(item.title)}</a>
+    `;
+    return el;
+  }
+
+  function metaToText(meta){
+    const kv = [];
+    for(const k in meta){ kv.push(`${escapeHtml(k)}: ${escapeHtml(meta[k])}`); }
+    return kv.join(' · ');
+  }
+
+  function render(list){
+    grid.innerHTML = '';
+    list.forEach(i=> grid.appendChild(makeCard(i)));
+    reveal();
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[s]));
+  }
+
+  function collectTags(list){
+    const set = new Set();
+    list.forEach(i=> (i.tags||[]).forEach(t=> set.add(t)));
+    return Array.from(set).sort();
+  }
+
+  function buildFilters(tags){
+    filters.innerHTML = '';
+    // "All" ボタン
+    const all = document.createElement('button');
+    all.className = 'chip';
+    all.textContent = 'All';
+    all.setAttribute('aria-pressed', 'true');
+    all.addEventListener('click', ()=>{ active.clear(); syncChips(); applyFilter(); });
+    filters.appendChild(all);
+
+    tags.forEach(tag=>{
+      const b = document.createElement('button');
+      b.className = 'chip'; b.textContent = tag; b.setAttribute('aria-pressed','false');
+      b.addEventListener('click', ()=>{
+        if(active.has(tag)) active.delete(tag); else active.add(tag);
+        syncChips(); applyFilter();
+      });
+      filters.appendChild(b);
+    });
+  }
+
+  function syncChips(){
+    const chips = filters.querySelectorAll('.chip');
+    chips.forEach(ch=>{
+      const label = ch.textContent.trim();
+      if(label === 'All') ch.setAttribute('aria-pressed', active.size === 0 ? 'true' : 'false');
+      else ch.setAttribute('aria-pressed', active.has(label) ? 'true' : 'false');
+    });
+  }
+
+  function applyFilter(){
+    if(active.size === 0) return render(DATA);
+    const list = DATA.filter(i=> (i.tags||[]).some(t=> active.has(t)));
+    render(list);
+  }
+
+  function reveal(){
+    const obs = new IntersectionObserver((entries)=>{
+      for(const e of entries){ if(e.isIntersecting){ e.target.classList.add('show'); obs.unobserve(e.target); } }
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=> obs.observe(el));
+  }
+
+  // データ読み込み
+  fetch(DATA_URL,{cache:'no-cache'})
+    .then(r=> r.ok ? r.json() : FALLBACK)
+    .then(json=> { DATA = Array.isArray(json)? json : FALLBACK; buildFilters(collectTags(DATA)); applyFilter(); })
+    .catch(()=> { DATA = FALLBACK; buildFilters(collectTags(DATA)); applyFilter(); });
+
+  // 年号
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // キーボードショートカット：MでMusic Playerへ
+  document.addEventListener('keydown', (ev)=>{
+    if(ev.key.toLowerCase() === 'm'){
+//      window.location.href = '/music-player.html';
+      window.location.href = '/lueur-music/';
+    }
+  });
+  </script>
+</body>
+</html>
