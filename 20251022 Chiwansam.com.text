@@ -1,4 +1,37 @@
 
+〇 Gitの使い方
+
+	gitbash
+
+	ブランチを切ろう
+		cd "C:\data\20251022 Chiwansam.com"
+		git branch
+		git checkout -b fix/relative-paths
+
+	修正後
+		git add .
+		git commit -m "fix: change absolute paths to relative for GitHub Pages"
+		git push -u origin fix/relative-paths
+
+
+
+
+	普段の更新
+		cd "C:\data\20251022 Chiwansam.com"
+		git add .
+		git commit -m "update: fix caption timing"
+		git push
+
+	🔹 ChatGPTに任せるとき
+		このHTMLを chiwansam.com/index.html にコミットして
+		コミットメッセージは "feat: update landing page"
+		と指示すれば、自動で差分コミット→pushできます。
+
+〇 「GitHub Pagesで chiwansam.com を直接公開」
+
+	リポジトリページ	https://github.com/Chiwansam/chiwansam.com
+	公開URL				https://chiwansam.github.io/chiwansam.com/
+
 〇 GitHubと連携しよう
 
 	https://github.com/
@@ -7,9 +40,22 @@
 
 	リポジトリ	chiwansam.com
 
-	cd "C:\data\20251022 Chiwansam.com"
-	
+	$ cd "C:\data\20251022 Chiwansam.com"
 
+	$ git init
+	Initialized empty Git repository in C:/data/20251022 Chiwansam.com/.git/
+
+	$ git remote add origin https://github.com/Chiwansam/chiwansam.com.git
+	nakam@Chiwaface CLANGARM64 /c/data/20251022 Chiwansam.com (master)
+
+	$ git branch -M main
+	nakam@Chiwaface CLANGARM64 /c/data/20251022 Chiwansam.com (main)
+
+	git config --global user.name "Chiwansam"
+	git config --global user.email "chiwansam@gmail.com"
+	git config --list
+	
+	
 
 〇　JSONを作ろう
 
