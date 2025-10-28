@@ -155,6 +155,17 @@ html { -webkit-text-size-adjust: 100%; }
   .topbar .title{ font-size: 20px; }
   .topbar .brand a{ font-size: 24px; }
 }
+
+/* スマホ向け（幅600px以下） */
+@media (max-width: 600px) {
+  .caption {
+    font-size: 70%;          /* テキスト全体を7割に縮小 */
+    max-width: 95vw;         /* 表示エリアを画面幅の95%に */
+    bottom: 28px;            /* 少し上に配置 */
+    line-height: 1.5;        /* 行間も少し広めに */
+  }
+}
+
     
     
     
