@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Chiwansam</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <meta name="description" content="静かなギャラリーポータル" />
   <style>
     :root{
@@ -122,10 +123,10 @@
 
   // フォールバック（JSONが未配置のときに仮表示）
   const FALLBACK = [
-    {category:'音楽', title:'Lost Fragment', description:'静かな電子の花が咲く。', image:'https://picsum.photos/seed/chiwa-music/1200/675', link:'#', size:'lg'},
-    {category:'ウォーハンマー', title:'Tyranid Prime', description:'紫の装甲。淡い艶。', image:'https://picsum.photos/seed/chiwa-warhammer/1200/675', link:'warhammer/', size:'md'},
-    {category:'ガンプラ', title:'Artifact Archive', description:'手触りのある赤。整面の呼吸。', image:'https://picsum.photos/seed/chiwa-gunpla/1200/675', link:'gunpla/', size:'md'},
-    {category:'日記', title:'Quiet Notes', description:'思考を置く場所。', image:'https://picsum.photos/seed/chiwa-notes/1200/675', link:'#', size:'md'}
+    {size:'lg', category:'ウォーハンマー', title:'WARHAMMER', description:'紫の装甲。淡い艶。', image:'image/202507 ゴアモンガー/DSC_4682.JPG', link:'warhammer/'},
+    {size:'md', category:'ガンプラ', title:'工事中：GUNPLA', description:'手触りのある赤。整面の呼吸。', image:'image/20250705 ハロプラ/DSC_4668.JPG', link:'gunpla/'},
+//    {size:'md', category:'音楽', title:'工事中：Lost Fragment', description:'静かな電子の花が咲く。', image:'https://picsum.photos/seed/chiwa-music/1200/675', link:'#'},
+    {size:'md', category:'日記', title:'Quiet Notes', description:'思考を置く場所。', image:'image/20251027 日記/rectangle_large_type_2_1f69b04fcaf8b77034c17459578a6b2e.png', link:'https://note.com/chiwansam'}
   ];
 
   const grid = document.getElementById('grid');

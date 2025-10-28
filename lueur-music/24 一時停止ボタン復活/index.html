@@ -12,11 +12,6 @@
   <title>Lueur de Chiwan</title>
   <meta name="description" content="音と光がゆるやかに交わる静かなスライドショー" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
-
-<!-- 和文フォント（軽め）を追加（任意） -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --bg:#000; --ink:#eaeaf0; --muted:#a7a7b3; --accent:#b8a7ff;
@@ -116,48 +111,6 @@
 
     .is-hidden{opacity:0!important;}
     .is-visible{opacity:1!important;}
-    
-    
-
-
-
-/* 追加：iOSの自動拡大を抑止 */
-html { -webkit-text-size-adjust: 100%; }
-
-/* 見出しは従来どおりエレガントな英字系 */
-.topbar .title,
-.topbar .brand a { font-family: 'Cormorant Garamond', serif; }
-
-/* キャプションは和文ゴシック系を優先（可読性重視） */
-.caption{
-  /* ↓フォントスタックを和文向けに変更 */
-  font-family: 
-    -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP",
-    Meiryo, sans-serif;
-  /* ↓可変サイズ：18px〜30pxを画面幅で自動調整 */
-  font-size: clamp(18px, 5.5vw, 30px);
-  /* ↓行間を少し広めに */
-  line-height: 1.6;
-  /* ↓混在文字対策：長い英単語だけ適度に折る */
-  word-break: normal;
-  overflow-wrap: anywhere;
-  /* 文字間は詰め気味（お好みで） */
-  letter-spacing: 0.01em;
-}
-
-/* 端末が狭い時の余白と最大幅も最適化 */
-@media (max-width: 600px){
-  .caption{
-    bottom: 28px;              /* 下詰まりを少し緩和 */
-    max-width: min(94%, 720px);
-  }
-  .topbar .title{ font-size: 20px; }
-  .topbar .brand a{ font-size: 24px; }
-}
-    
-    
-    
   </style>
 </head>
 <body>

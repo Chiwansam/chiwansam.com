@@ -102,7 +102,7 @@
     </svg>
     <span>Music Player</span>
   </a>
-  <div class="music-hint" aria-hidden="true">ショートカット：M</div>
+  <!--<div class="music-hint" aria-hidden="true">ショートカット：M</div>-->
 
   <script>
   const DATA_URL = '/assets/warhammer.json';
@@ -121,13 +121,17 @@
   // ]
 
   const FALLBACK = [
-    {title:'SPACEMARINE CAPTAIN', description:'アシェット#1。', size:'lg', image:'../image/202510 スペースマリーンキャプテン/20251021 DSC_5176 黒サフ.JPG', link:'../lueur-music/?list=SpaceMarineCaptain', tags:['40K','Tyranids'], meta:{year:2025, system:'40K'}},
-    {title:'Tyranid Prime', description:'目の配色検討中。ゼニタルとグレーズ。', size:'lg', image:'../image/202510 Tyranid Prime/スクリーンショット 2025-10-12 012532.png', link:'../lueur-music/?list=TyranidPrime', tags:['40K','Tyranids'], meta:{year:2025, system:'40K'}},
-    {title:'Goremonger', description:'はじめてのウォーハンマー', size:'lg', image:'../image/202507 ゴアモンガー/DSC_4682.JPG', link:'../lueur-music/?list=goremonger', tags:['40K','Goremonger'], meta:{year:2025, system:'40K'}},
-    {title:'Knight Armiger', description:'ハッチ磁石化／コックピット自作／リベット追加。', size:'md', image:'../image/202507 ゴアモンガー/スクリーンショット 2025-10-23 202914.png', link:'#', tags:['40K','Imperium','Knight'], meta:{year:2025, system:'40K'}},
+//    {size:'lg', title:'KNIGHT ARMIGER', description:'ハッチ磁石化／コックピット自作／リベット追加。', image:'../image/202509 ナイトアーミジャー/20251026 DSC_5190 頭ハーマンレッド.JPG', link:'../lueur-music/?list=KnightArmiger', tags:['40K','Imperium','Knight'], meta:{year:2025, system:'40K'}},
+//    {size:'lg', title:'SPACEMARINE CAPTAIN', description:'アシェット#1。',image:'../image/202510 スペースマリーンキャプテン/20251021 DSC_5176 黒サフ.JPG', link:'../lueur-music/?list=SpaceMarineCaptain', tags:['40K','Tyranids'], meta:{year:2025, system:'40K'}},
+    {size:'md', title:'[WIP] KNIGHT ARMIGER', description:'ハッチ磁石化／コックピット自作／リベット追加。', image:'../image/202509 ナイトアーミジャー/20251026 DSC_5190 頭ハーマンレッド.JPG', link:'../lueur-music/?list=KnightArmiger', tags:['40K','Imperium','Knight'], meta:{year:2025, system:'40K'}},
+    {size:'md', title:'[WIP] SPACEMARINE CAPTAIN', description:'アシェット#1。',image:'../image/202510 スペースマリーンキャプテン/20251028 DSC_5204 カンタールブルー1c.JPG', link:'../lueur-music/?list=SpaceMarineCaptain', tags:['40K','Tyranids'], meta:{year:2025, system:'40K'}},
+    {size:'md', title:'Tyranid Prime', description:'目の配色検討中。ゼニタルとグレーズ。', image:'../image/202510 Tyranid Prime/スクリーンショット 2025-10-12 012532.png', link:'../lueur-music/?list=TyranidPrime', tags:['40K','Tyranids'], meta:{year:2025, system:'40K'}},
+    {size:'md', title:'SPACEMARINE INTERCESSOR', description:'Chiwansam Squad',image:'../image/20250730 スペースマリーン Intercessor/2025-08-25_07-27-42_616.jpeg', link:'../lueur-music/?list=SpaceMarineCaptain', tags:['40K','Tyranids'], meta:{year:2025, system:'40K'}},
+    {size:'sm', title:'Liberator 小隊', description:'静かな光沢と控えめなハイライト。', image:'../image/20250726 ストームキャスト リベレイター/20250804 DSC_4969 ベース.JPG', link:'#', tags:['AoS','Stormcast'], meta:{year:2025, system:'AoS'}},
+    {size:'sm', title:'Stormcast Eternal – Goltan', description:'銀下地＋クリアイエローで金表現。薄塗り挑戦。', image:'../image/20250719 貫徹のゴルタン/スクリーンショット 2025-07-23 004334 顔の肌.png', link:'#', tags:['AoS','Stormcast','Gold'], meta:{year:2025, system:'AoS'}},
+    {size:'sm', title:'Stormcast Eternal – Tenya', description:'銀下地＋クリアイエローで金表現。薄塗り挑戦。', image:'../image/20250713 信頼されしテンヤ/20250731 スクリーンショット 2025-07-31 172857 シェード.png', link:'#', tags:['AoS','Stormcast','Gold'], meta:{year:2025, system:'AoS'}},
+    {size:'md', title:'Goremonger', description:'はじめてのウォーハンマー', image:'../image/202507 ゴアモンガー/DSC_4682.JPG', link:'../lueur-music/?list=goremonger', tags:['40K','Goremonger'], meta:{year:2025, system:'40K'}}
 
-    {title:'Stormcast Eternal – Tenya', description:'銀下地＋クリアイエローで金表現。薄塗り挑戦。', size:'sm', image:'https://picsum.photos/seed/wh1/1200/800', link:'#', tags:['AoS','Stormcast','Gold'], meta:{year:2025, system:'AoS'}},
-    {title:'Liberator 小隊', description:'静かな光沢と控えめなハイライト。', image:'https://picsum.photos/seed/wh4/1200/800', link:'#', size:'md', tags:['AoS','Stormcast'], meta:{year:2025, system:'AoS'}}
   ];
 
   const grid = document.getElementById('grid');
